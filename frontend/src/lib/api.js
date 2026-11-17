@@ -2,8 +2,11 @@
 // - Access token lives in memory only (never localStorage).
 // - Refresh token is an httpOnly cookie the browser sends to /auth/* automatically.
 // - On an expired access token, refreshes once and retries the request.
+// - If refresh fails (session expired), clears the session so the UI redirects to login.
 
 const BASE = (import.meta.env.VITE_API_URL || '/api/v1').replace(/\/$/, '')
+
+const AUTH_FAILURE_CODES = new Set(['token_expired', 'invalid_token', 'not_authenticated'])
 
 let accessToken = null
 let refreshing = null
@@ -11,6 +14,11 @@ let onSessionChange = () => {}
 
 export function setAccessToken(token) { accessToken = token }
 export function onSession(fn) { onSessionChange = fn }
+
+function clearSession() {
+  accessToken = null
+  onSessionChange(null)
+}
 
 export class ApiError extends Error {
   constructor(status, body) {
@@ -57,7 +65,7 @@ export function refreshSession() {
         onSessionChange(data)
         return data
       })
-      .catch(e => { accessToken = null; onSessionChange(null); throw e })
+      .catch(e => { clearSession(); throw e })
       .finally(() => { refreshing = null })
   }
   return refreshing
@@ -65,11 +73,25 @@ export function refreshSession() {
 
 export async function api(path, opts = {}) {
   let { res, data } = await raw(path, opts)
-  if (res.status === 401 && opts.auth !== false && accessToken && ['token_expired', 'invalid_token'].includes(data?.error?.code)) {
-    await refreshSession()
-    ;({ res, data } = await raw(path, opts))
+
+  if (
+    res.status === 401
+    && opts.auth !== false
+    && accessToken
+    && AUTH_FAILURE_CODES.has(data?.error?.code)
+  ) {
+    try {
+      await refreshSession()
+      ;({ res, data } = await raw(path, opts))
+    } catch {
+      throw new ApiError(401, { error: { code: 'not_authenticated', message: 'Session expired. Please sign in again.' } })
+    }
   }
-  if (!res.ok) throw new ApiError(res.status, data)
+
+  if (!res.ok) {
+    if (opts.auth !== false && AUTH_FAILURE_CODES.has(data?.error?.code)) clearSession()
+    throw new ApiError(res.status, data)
+  }
   return data
 }
 

@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { Loader2 } from 'lucide-react'
 import { post } from '../../lib/api'
-import { useAuth } from '../../store/auth'
+import { useAuth, dashboardPathFor } from '../../store/auth'
 import BackHome from '../../components/auth/BackHome'
 
 export default function SetPasswordPage({ mode }) {
@@ -24,7 +24,7 @@ export default function SetPasswordPage({ mode }) {
     try {
       if (invite) {
         await acceptInvite(token, form.password)
-        navigate('/dashboard', { replace: true })
+        navigate(dashboardPathFor(useAuth.getState().user), { replace: true })
       } else {
         await post('/auth/reset-password', { token, password: form.password }, { auth: false })
         setDone(true)

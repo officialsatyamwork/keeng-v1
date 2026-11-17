@@ -10,7 +10,7 @@ import logoWhite from '../../assets/logo-whites.png'
 import logoBlack from '../../assets/logo-blacks.png'
 import { useTheme } from '../../context/ThemeContext'
 import BackHome from '../../components/auth/BackHome'
-import { DEMO_PASSWORD, useAuth } from '../../store/auth'
+import { useAuth, dashboardPathFor } from '../../store/auth'
 import { BIZ_TYPES as PLATFORM_BIZ_TYPES } from '../../data/seed'
 
 const BIZ_TYPES = PLATFORM_BIZ_TYPES
@@ -36,7 +36,6 @@ const ROLES = [
     desc: 'Works across the salons a master admin assigns. You do not sign up yourself.',
     permissions: ['Assigned salons', 'Revenue', 'Team', 'Switcher'],
     inviteOnly: 'A master admin invites you from Settings → Team & Access. The email link is where you create your password.',
-    demoEmail: 'admin@glowsalon.com',
   },
   {
     key: 'admin',
@@ -48,7 +47,6 @@ const ROLES = [
     desc: 'Runs exactly one salon, including that salon’s revenue.',
     permissions: ['One salon', 'Revenue', 'Desk', 'Team'],
     inviteOnly: 'A master admin invites you from Settings → Team & Access and assigns one salon. You set your password from the email.',
-    demoEmail: 'salonadmin@glowsalon.com',
   },
   {
     key: 'manager',
@@ -60,7 +58,6 @@ const ROLES = [
     desc: 'Runs the floor of one salon. Revenue is not on this desk.',
     permissions: ['One salon', 'Appointments', 'Team list', 'No revenue'],
     inviteOnly: 'Your salon owner invites you from Settings → Team & Access. You create your password from the email link.',
-    demoEmail: 'manager@glowsalon.com',
   },
   {
     key: 'staff',
@@ -72,7 +69,6 @@ const ROLES = [
     desc: 'Your own chair: appointments, commission, and the next 7 days.',
     permissions: ['My appointments', 'Commission', 'Next 7 days'],
     inviteOnly: 'Your salon owner invites you from Settings → Team & Access. You create your password from the email link.',
-    demoEmail: 'riya@glowsalon.com',
   },
 ]
 
@@ -114,7 +110,6 @@ export default function RegisterPage() {
   const [loading, setLoading]         = useState(false)
   const navigate = useNavigate()
   const register = useAuth(s => s.register)
-  const login = useAuth(s => s.login)
 
   const set = (k, v) => { setForm(f => ({ ...f, [k]: v })); setErrors(e => ({ ...e, [k]: '' })) }
 
@@ -150,21 +145,10 @@ export default function RegisterPage() {
         city: form.city.trim() || null,
         password: form.password,
       })
-      navigate('/dashboard', { replace: true })
+      navigate(dashboardPathFor(useAuth.getState().user), { replace: true })
     } catch (err) {
       setErrors(err.fields || {})
       setErrors(e => ({ ...e, form: err.message }))
-      setLoading(false)
-    }
-  }
-
-  const openDemo = async (email) => {
-    setLoading(true)
-    try {
-      await login(email, DEMO_PASSWORD)
-      navigate('/dashboard', { replace: true })
-    } catch (err) {
-      setErrors({ form: err.message })
       setLoading(false)
     }
   }
@@ -206,9 +190,9 @@ export default function RegisterPage() {
       >
         {/* Logo + heading */}
         <div className="text-center mb-7">
-          <Link to="/" className="inline-block mb-5">
+          <div className="inline-block mb-5">
             <img src={theme === 'dark' ? logoWhite : logoBlack} alt="Velura" className="logo-img h-14 mx-auto" />
-          </Link>
+          </div>
           <AnimatePresence mode="wait">
             {submitted ? null : !selectedRole ? (
               <motion.div key="h1" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}>
@@ -317,18 +301,14 @@ export default function RegisterPage() {
                 <p className="text-[13px]" style={{ color: 'var(--text-primary)' }}>{role.inviteOnly}</p>
               </div>
               {errors.form && <p className="text-[13px] mb-3" style={{ color: '#f87171' }}>{errors.form}</p>}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <button type="button" onClick={() => setSelectedRole(null)}
                   className="py-3 rounded-xl font-semibold text-[13px] btn-ghost" style={{ color: 'var(--text-secondary)' }}>
                   ← Change role
                 </button>
-                <Link to="/login" className="py-3 rounded-xl font-semibold text-[13px] flex items-center justify-center gap-2 btn-ghost" style={{ color: 'var(--text-secondary)' }}>
-                  I have an account <ArrowRight size={14} />
+                <Link to="/login" className="py-3 rounded-xl font-semibold text-[13px] flex items-center justify-center gap-2 btn-primary">
+                  Go to sign in <ArrowRight size={14} />
                 </Link>
-                <button type="button" disabled={loading} onClick={() => openDemo(role.demoEmail)}
-                  className="py-3 rounded-xl font-semibold text-[13px] btn-primary">
-                  Open demo desk
-                </button>
               </div>
             </motion.div>
           )}

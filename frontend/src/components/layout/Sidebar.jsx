@@ -62,7 +62,7 @@ export default function Sidebar({ collapsed: collapsedPref, setCollapsed, mobile
       <div className={`flex items-center ${collapsed ? 'justify-center px-0' : 'justify-between px-4'} py-[18px]`}
         style={{ borderBottom: '1px solid var(--border)' }}>
         {!collapsed && (
-          <Link to="/" className="flex items-center gap-2.5">
+          <Link to="/dashboard" className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0"
               style={{ background: 'linear-gradient(135deg, #c9973a, #a87828)' }}>
               <Sparkles size={15} className="text-white" />

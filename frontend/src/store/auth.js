@@ -23,7 +23,18 @@ export const ROLES = {
 
 export const LIVE_MODULES = new Set(['dashboard', 'branches', 'settings'])
 
-export const DEMO_PASSWORD = 'Velura@123'
+/** All authenticated roles share `/dashboard`; the API shapes cards by role. */
+export function dashboardPathFor(_user) {
+  return '/dashboard'
+}
+
+function defaultSalonId(user, previous) {
+  const salons = user?.salons || []
+  if (previous && salons.some(s => s.id === previous)) return previous
+  // Single-salon roles (and anyone with exactly one salon) get that salon scoped.
+  if (salons.length === 1) return salons[0].id
+  return null
+}
 
 export const useAuth = create((set, get) => ({
   status: 'loading',
@@ -33,9 +44,8 @@ export const useAuth = create((set, get) => ({
   setSession(data) {
     if (data) {
       setAccessToken(data.accessToken)
-      const keep = get().salonId
-      const stillAllowed = keep && data.user.salons.some(s => s.id === keep)
-      set({ status: 'authed', user: data.user, salonId: stillAllowed ? keep : null })
+      const salonId = defaultSalonId(data.user, get().salonId)
+      set({ status: 'authed', user: data.user, salonId })
     } else {
       setAccessToken(null)
       set({ status: 'guest', user: null, salonId: null })
@@ -65,12 +75,24 @@ export const useAuth = create((set, get) => ({
     get().setSession(null)
   },
 
-  setSalon(salonId) { set({ salonId }) },
+  setSalon(salonId) {
+    const salons = get().user?.salons || []
+    if (salonId && !salons.some(s => s.id === salonId)) return
+    set({ salonId: salonId || null })
+  },
 
   can(module) {
     if (module === 'dashboard') return true
     if (module === 'calendar') return get().user?.modules?.includes('appointments') ?? false
     return get().user?.modules?.includes(module) ?? false
+  },
+
+  /** Primary salon / branch context from the authenticated session. */
+  primarySalon() {
+    const { user, salonId } = get()
+    if (!user?.salons?.length) return null
+    if (salonId) return user.salons.find(s => s.id === salonId) || null
+    return user.salons[0] || null
   },
 }))
 
