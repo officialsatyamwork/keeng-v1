@@ -150,7 +150,6 @@ export default function RegisterPage() {
         city: form.city.trim() || null,
         password: form.password,
       })
-      // Dashboard UI temporarily disabled — lands on stub page
       navigate('/dashboard', { replace: true })
     } catch (err) {
       setErrors(err.fields || {})
@@ -163,7 +162,6 @@ export default function RegisterPage() {
     setLoading(true)
     try {
       await login(email, DEMO_PASSWORD)
-      // Dashboard UI temporarily disabled — lands on stub page
       navigate('/dashboard', { replace: true })
     } catch (err) {
       setErrors({ form: err.message })
@@ -208,9 +206,9 @@ export default function RegisterPage() {
       >
         {/* Logo + heading */}
         <div className="text-center mb-7">
-          <div className="inline-block mb-5">
+          <Link to="/" className="inline-block mb-5">
             <img src={theme === 'dark' ? logoWhite : logoBlack} alt="Velura" className="logo-img h-14 mx-auto" />
-          </div>
+          </Link>
           <AnimatePresence mode="wait">
             {submitted ? null : !selectedRole ? (
               <motion.div key="h1" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}>

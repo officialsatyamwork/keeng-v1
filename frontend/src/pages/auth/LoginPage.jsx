@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { Eye, EyeOff, ArrowRight, Star, Mail, Lock } from 'lucide-react'
 import logoWhite from '../../assets/logo-whites.png'
 import logoBlack from '../../assets/logo-blacks.png'
@@ -17,6 +17,7 @@ export default function LoginPage() {
   const [loading, setLoading]   = useState(false)
   const [authError, setAuthError] = useState('')
   const navigate = useNavigate()
+  const location = useLocation()
   const login = useAuth(s => s.login)
 
   const set = (k, v) => { setForm(f => ({ ...f, [k]: v })); setErrors(e => ({ ...e, [k]: '' })); setAuthError('') }
@@ -38,8 +39,7 @@ export default function LoginPage() {
     setLoading(true)
     try {
       await login(form.email, form.password)
-      // Dashboard UI temporarily disabled — lands on stub page
-      navigate('/dashboard', { replace: true })
+      navigate(location.state?.from || '/dashboard', { replace: true })
     } catch (err) {
       setAuthError(err.message)
       setLoading(false)
@@ -65,9 +65,9 @@ export default function LoginPage() {
       >
         {/* Logo */}
         <div className="text-center mb-8 max-w-[420px] mx-auto">
-          <div className="inline-block mb-6">
+          <Link to="/" className="inline-block mb-6">
             <img src={theme === 'dark' ? logoWhite : logoBlack} alt="Velura" className="logo-img h-14 mx-auto"/>
-          </div>
+          </Link>
           <h1 className="text-[2rem] font-black mb-2" style={{ color:'var(--text-primary)', letterSpacing:'-0.025em' }}>
             Welcome back
           </h1>
@@ -110,13 +110,11 @@ export default function LoginPage() {
             <div>
               <div className="flex items-center justify-between mb-2">
                 <label className="text-[13px] font-semibold" style={{ color:'var(--text-primary)' }}>Password</label>
-                {/* Forgot password temporarily disabled with other auth extras
                 <Link to="/forgot-password" className="text-[12px] font-medium transition-colors" style={{ color:'var(--brand)' }}
                   onMouseEnter={e => { e.currentTarget.style.color = 'var(--brand-light)' }}
                   onMouseLeave={e => { e.currentTarget.style.color = 'var(--brand)' }}>
                   Forgot password?
                 </Link>
-                */}
               </div>
               <div className="relative">
                 <Lock size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color:'var(--text-muted)' }}/>

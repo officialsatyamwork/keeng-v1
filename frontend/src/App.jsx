@@ -1,36 +1,32 @@
 import { useEffect } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
-// Landing / marketing UI temporarily disabled
-// import LandingPage from './pages/landing/LandingPage'
-// import AboutPage from './pages/landing/AboutPage'
-// import FeaturesPage from './pages/landing/FeaturesPage'
-// import SolutionsPage from './pages/landing/SolutionsPage'
-// import PricingPage from './pages/landing/PricingPage'
+import LandingPage from './pages/landing/LandingPage'
+import AboutPage from './pages/landing/AboutPage'
+import FeaturesPage from './pages/landing/FeaturesPage'
+import SolutionsPage from './pages/landing/SolutionsPage'
+import PricingPage from './pages/landing/PricingPage'
 import LoginPage from './pages/auth/LoginPage'
 import RegisterPage from './pages/auth/RegisterPage'
-// Auth extras temporarily disabled
-// import ForgotPasswordPage from './pages/auth/ForgotPasswordPage'
-// import SetPasswordPage from './pages/auth/SetPasswordPage'
-// Dashboard UI temporarily disabled
-// import DashboardLayout from './components/layout/DashboardLayout'
-// import DashboardHome from './pages/dashboard/DashboardHome'
-// import AppointmentsPage from './pages/dashboard/AppointmentsPage'
-// import CustomersPage from './pages/dashboard/CustomersPage'
-// import BillingPage from './pages/dashboard/BillingPage'
-// import StaffPage from './pages/dashboard/StaffPage'
-// import ServicesPage from './pages/dashboard/ServicesPage'
-// import InventoryPage from './pages/dashboard/InventoryPage'
-// import MembershipPage from './pages/dashboard/MembershipPage'
-// import MarketingPage from './pages/dashboard/MarketingPage'
-// import ReportsPage from './pages/dashboard/ReportsPage'
-// import BranchesPage from './pages/dashboard/BranchesPage'
-// import SettingsPage from './pages/dashboard/SettingsPage'
-// import CalendarPage from './pages/dashboard/CalendarPage'
-import { GuestOnly /*, RequireAuth, RequireModule */ } from './components/auth/ProtectedRoute'
-// import { PreviewBanner } from './components/auth/PreviewBanner'
-import { /* LIVE_MODULES, */ useAuth } from './store/auth'
+import ForgotPasswordPage from './pages/auth/ForgotPasswordPage'
+import SetPasswordPage from './pages/auth/SetPasswordPage'
+import DashboardLayout from './components/layout/DashboardLayout'
+import DashboardHome from './pages/dashboard/DashboardHome'
+import AppointmentsPage from './pages/dashboard/AppointmentsPage'
+import CustomersPage from './pages/dashboard/CustomersPage'
+import BillingPage from './pages/dashboard/BillingPage'
+import StaffPage from './pages/dashboard/StaffPage'
+import ServicesPage from './pages/dashboard/ServicesPage'
+import InventoryPage from './pages/dashboard/InventoryPage'
+import MembershipPage from './pages/dashboard/MembershipPage'
+import MarketingPage from './pages/dashboard/MarketingPage'
+import ReportsPage from './pages/dashboard/ReportsPage'
+import BranchesPage from './pages/dashboard/BranchesPage'
+import SettingsPage from './pages/dashboard/SettingsPage'
+import CalendarPage from './pages/dashboard/CalendarPage'
+import { GuestOnly, RequireAuth, RequireModule } from './components/auth/ProtectedRoute'
+import { PreviewBanner } from './components/auth/PreviewBanner'
+import { LIVE_MODULES, useAuth } from './store/auth'
 
-/* Dashboard module pages temporarily disabled
 const modulePages = [
   ['appointments', AppointmentsPage, 'V2'],
   ['calendar', CalendarPage, 'V2'],
@@ -55,32 +51,6 @@ function ModulePage({ module, release, Page }) {
     </>
   )
 }
-*/
-
-function DashboardDisabled() {
-  const logout = useAuth(s => s.logout)
-  const user = useAuth(s => s.user)
-  return (
-    <div className="min-h-screen flex items-center justify-center px-6" style={{ background: 'var(--bg)' }}>
-      <div className="text-center max-w-md">
-        <h1 className="text-2xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>
-          Dashboard UI disabled
-        </h1>
-        <p className="text-sm mb-6" style={{ color: 'var(--text-secondary)' }}>
-          {user ? `Signed in as ${user.email || user.name || 'user'}. ` : ''}
-          All dashboard pages are temporarily commented out. Only login and signup are available.
-        </p>
-        <button
-          type="button"
-          onClick={() => logout()}
-          className="btn-primary px-5 py-2.5 rounded-xl text-sm font-semibold"
-        >
-          Sign out
-        </button>
-      </div>
-    </div>
-  )
-}
 
 export default function App() {
   const bootstrap = useAuth(s => s.bootstrap)
@@ -89,24 +59,16 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Landing / marketing temporarily disabled — send home to login */}
-        {/* <Route path="/" element={<LandingPage />} /> */}
-        {/* <Route path="/about" element={<AboutPage />} /> */}
-        {/* <Route path="/features" element={<FeaturesPage />} /> */}
-        {/* <Route path="/solutions" element={<SolutionsPage />} /> */}
-        {/* <Route path="/pricing" element={<PricingPage />} /> */}
-        <Route path="/" element={<Navigate to="/login" replace />} />
-
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/features" element={<FeaturesPage />} />
+        <Route path="/solutions" element={<SolutionsPage />} />
+        <Route path="/pricing" element={<PricingPage />} />
         <Route path="/login" element={<GuestOnly><LoginPage /></GuestOnly>} />
         <Route path="/register" element={<GuestOnly><RegisterPage /></GuestOnly>} />
-
-        {/* Auth extras temporarily disabled */}
-        {/* <Route path="/forgot-password" element={<ForgotPasswordPage />} /> */}
-        {/* <Route path="/reset-password" element={<SetPasswordPage mode="reset" />} /> */}
-        {/* <Route path="/accept-invite" element={<SetPasswordPage mode="invite" />} /> */}
-
-        {/* Dashboard UI temporarily disabled */}
-        {/*
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/reset-password" element={<SetPasswordPage mode="reset" />} />
+        <Route path="/accept-invite" element={<SetPasswordPage mode="invite" />} />
         <Route element={<RequireAuth />}>
           <Route path="/dashboard" element={<DashboardLayout />}>
             <Route index element={<DashboardHome />} />
@@ -119,10 +81,7 @@ export default function App() {
             ))}
           </Route>
         </Route>
-        */}
-        <Route path="/dashboard/*" element={<DashboardDisabled />} />
-
-        <Route path="*" element={<Navigate to="/login" replace />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
   )

@@ -21,7 +21,6 @@ export function RequireAuth() {
 export function GuestOnly({ children }) {
   const status = useAuth(s => s.status)
   if (status === 'loading') return <FullPageSpinner />
-  // Dashboard UI is temporarily disabled — still send authed users to /dashboard stub
   if (status === 'authed') return <Navigate to="/dashboard" replace />
   return children
 }
