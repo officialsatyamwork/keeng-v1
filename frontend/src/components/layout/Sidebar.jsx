@@ -67,12 +67,12 @@ export default function Sidebar({ collapsed: collapsedPref, setCollapsed, mobile
       <div className={`flex items-center ${collapsed ? 'justify-center px-0' : 'justify-between px-4'} py-5`}
         style={{ borderBottom: '1px solid var(--border)' }}>
         {!collapsed && (
-          <Link to="/" className="flex items-center min-w-0">
+          <Link to="/dashboard" className="flex items-center min-w-0">
             <img src={logoSrc} alt="Keeng" className="logo-img h-10" />
           </Link>
         )}
         {collapsed && (
-          <Link to="/" className="flex items-center justify-center w-11 h-11 overflow-hidden" title="Keeng">
+          <Link to="/dashboard" className="flex items-center justify-center w-11 h-11 overflow-hidden" title="Keeng">
             <img src={logoSrc} alt="Keeng" className="h-9 w-9 object-cover object-left" />
           </Link>
         )}

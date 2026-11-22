@@ -10,6 +10,14 @@ export function FullPageSpinner() {
   )
 }
 
+/** `/` — guests go to login; signed-in users go to dashboard. */
+export function RootRedirect() {
+  const status = useAuth(s => s.status)
+  if (status === 'loading') return <FullPageSpinner />
+  if (status === 'authed') return <Navigate to="/dashboard" replace />
+  return <Navigate to="/login" replace />
+}
+
 export function RequireAuth() {
   const status = useAuth(s => s.status)
   const location = useLocation()

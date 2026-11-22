@@ -1,10 +1,11 @@
 import { useEffect } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
-import LandingPage from './pages/landing/LandingPage'
-import AboutPage from './pages/landing/AboutPage'
-import FeaturesPage from './pages/landing/FeaturesPage'
-import SolutionsPage from './pages/landing/SolutionsPage'
-import PricingPage from './pages/landing/PricingPage'
+// Marketing / public UI temporarily disabled (auth-first, same as v1)
+// import LandingPage from './pages/landing/LandingPage'
+// import AboutPage from './pages/landing/AboutPage'
+// import FeaturesPage from './pages/landing/FeaturesPage'
+// import SolutionsPage from './pages/landing/SolutionsPage'
+// import PricingPage from './pages/landing/PricingPage'
 import LoginPage from './pages/auth/LoginPage'
 import RegisterPage from './pages/auth/RegisterPage'
 import ForgotPasswordPage from './pages/auth/ForgotPasswordPage'
@@ -23,7 +24,7 @@ import ReportsPage from './pages/dashboard/ReportsPage'
 import BranchesPage from './pages/dashboard/BranchesPage'
 import SettingsPage from './pages/dashboard/SettingsPage'
 import CalendarPage from './pages/dashboard/CalendarPage'
-import { GuestOnly, RequireAuth, RequireModule } from './components/auth/ProtectedRoute'
+import { GuestOnly, RequireAuth, RequireModule, RootRedirect } from './components/auth/ProtectedRoute'
 import { PreviewBanner } from './components/auth/PreviewBanner'
 import { LIVE_MODULES, useAuth } from './store/auth'
 
@@ -59,16 +60,19 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/features" element={<FeaturesPage />} />
-        <Route path="/solutions" element={<SolutionsPage />} />
-        <Route path="/pricing" element={<PricingPage />} />
+        {/* Auth-first: no public homepage / marketing routes */}
+        <Route path="/" element={<RootRedirect />} />
+        {/* <Route path="/" element={<LandingPage />} /> */}
+        {/* <Route path="/about" element={<AboutPage />} /> */}
+        {/* <Route path="/features" element={<FeaturesPage />} /> */}
+        {/* <Route path="/solutions" element={<SolutionsPage />} /> */}
+        {/* <Route path="/pricing" element={<PricingPage />} /> */}
         <Route path="/login" element={<GuestOnly><LoginPage /></GuestOnly>} />
         <Route path="/register" element={<GuestOnly><RegisterPage /></GuestOnly>} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route path="/reset-password" element={<SetPasswordPage mode="reset" />} />
         <Route path="/accept-invite" element={<SetPasswordPage mode="invite" />} />
+
         <Route element={<RequireAuth />}>
           <Route path="/dashboard" element={<DashboardLayout />}>
             <Route index element={<DashboardHome />} />
@@ -76,11 +80,16 @@ export default function App() {
               <Route
                 key={path}
                 path={path}
-                element={<RequireModule module={path}><ModulePage module={path} release={release} Page={Page} /></RequireModule>}
+                element={
+                  <RequireModule module={path}>
+                    <ModulePage module={path} release={release} Page={Page} />
+                  </RequireModule>
+                }
               />
             ))}
           </Route>
         </Route>
+
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>

@@ -238,9 +238,9 @@ export default function RegisterPage() {
       >
         {/* Logo + heading */}
         <div className="text-center mb-7">
-          <Link to="/" className="inline-block mb-5">
+          <div className="inline-block mb-5">
             <img src={theme === 'dark' ? logoWhite : logoBlack} alt="Keeng" className="logo-img h-14 mx-auto" />
-          </Link>
+          </div>
           <AnimatePresence mode="wait">
             {submitted ? null : !selectedRole ? (
               <motion.div key="h1" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}>

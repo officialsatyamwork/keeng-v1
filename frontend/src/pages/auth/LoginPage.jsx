@@ -5,7 +5,6 @@ import { Eye, EyeOff, ArrowRight, Star, Mail, Lock } from 'lucide-react'
 import logoWhite from '../../assets/logo-whites.png'
 import logoBlack from '../../assets/logo-blacks.png'
 import { useTheme } from '../../context/ThemeContext'
-import BackHome from '../../components/auth/BackHome'
 import { useAuth } from '../../store/auth'
 
 export default function LoginPage() {
@@ -61,9 +60,6 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen flex items-center justify-center px-6 pt-20 pb-12 sm:py-12"
       style={{ background: 'var(--bg)' }}>
-      <BackHome />
-
-
       {/* Background glow */}
       <div style={{ position:'fixed', inset:0, pointerEvents:'none', overflow:'hidden', zIndex:0 }}>
         <div style={{ position:'absolute', top:'-20%', left:'50%', transform:'translateX(-50%)', width:'700px', height:'500px', borderRadius:'50%', background:'radial-gradient(ellipse, rgba(196,96,122,0.1) 0%, transparent 70%)', filter:'blur(40px)' }}/>
@@ -77,14 +73,14 @@ export default function LoginPage() {
       >
         {/* Logo */}
         <div className="text-center mb-8 max-w-[420px] mx-auto">
-          <Link to="/" className="inline-block mb-6">
+          <div className="inline-block mb-6">
             <img src={theme === 'dark' ? logoWhite : logoBlack} alt="Keeng" className="logo-img h-14 mx-auto"/>
-          </Link>
+          </div>
           <h1 className="text-[2rem] font-black mb-2" style={{ color:'var(--text-primary)', letterSpacing:'-0.025em' }}>
             Welcome back
           </h1>
           <p className="text-[0.9rem]" style={{ color:'var(--text-secondary)' }}>
-            Sign in to your Keeng dashboard
+            Sign in to your Velura dashboard version 2
           </p>
         </div>
 

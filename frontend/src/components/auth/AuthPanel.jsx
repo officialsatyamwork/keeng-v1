@@ -148,7 +148,7 @@ export default function AuthPanel({ variant='login' }) {
 
         {/* Logo */}
         <motion.div initial={{ opacity:0, x:-14 }} animate={{ opacity:1, x:0 }} transition={{ duration:0.6 }}>
-          <Link to="/"><img src={logoWhite} alt="Keeng" style={{ height:'36px', width:'auto', objectFit:'contain', opacity:0.9 }}/></Link>
+          <img src={logoWhite} alt="Keeng" style={{ height:'36px', width:'auto', objectFit:'contain', opacity:0.9 }}/>
         </motion.div>
 
         {/* Headline */}
@@ -229,10 +229,10 @@ export default function AuthPanel({ variant='login' }) {
           ))}
         </motion.div>
 
-        <Link to="/" style={{ marginTop:'16px', fontSize:'11px', color:'rgba(245,237,240,0.22)', transition:'color 0.2s' }}
+        <Link to="/login" style={{ marginTop:'16px', fontSize:'11px', color:'rgba(245,237,240,0.22)', transition:'color 0.2s' }}
           onMouseEnter={e=>{e.currentTarget.style.color='rgba(245,237,240,0.55)'}}
           onMouseLeave={e=>{e.currentTarget.style.color='rgba(245,237,240,0.22)'}}>
-          ← Back to keeng.in
+          ← Back to sign in
         </Link>
       </div>
     </div>
