@@ -56,13 +56,6 @@ class Settings(BaseSettings):
     # Business defaults
     trial_days: int = 14
 
-    # Bootstrap master admin (used by `python -m app.scripts.bootstrap_master`)
-    master_admin_email: str | None = None
-    master_admin_password: str | None = None
-    master_admin_name: str = "Master Admin"
-    master_admin_phone: str = "9876500000"
-    master_admin_business_name: str = "Keeng Salon"
-
     @field_validator("cors_origins", mode="before")
     @classmethod
     def split_origins(cls, v: object) -> object:

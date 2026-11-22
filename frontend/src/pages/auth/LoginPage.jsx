@@ -80,7 +80,7 @@ export default function LoginPage() {
             Welcome back
           </h1>
           <p className="text-[0.9rem]" style={{ color:'var(--text-secondary)' }}>
-            Sign in to your Velura dashboard version 2
+            Sign in to your Velura dashboard V2
           </p>
         </div>
 
