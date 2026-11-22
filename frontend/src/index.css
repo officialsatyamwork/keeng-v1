@@ -1,0 +1,536 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800;0,14..32,900;1,14..32,400&display=swap');
+@import "tailwindcss";
+
+/* ═══════════════════════════════════════════
+   BRAND TOKENS — Luxury Salon Palette
+   Rose gold · Champagne · Mauve · Dusty rose
+   ═══════════════════════════════════════════ */
+:root {
+  --brand:        #c4607a;
+  --brand-light:  #e07a90;
+  --brand-dark:   #9a3a54;
+  --brand-soft:   rgba(196,96,122,0.12);
+  --brand-glow:   rgba(196,96,122,0.32);
+  --gold:         #c9a96e;
+  --gold-light:   #e8c98a;
+  --gold-soft:    rgba(201,169,110,0.15);
+  --radius-sm:    10px;
+  --radius-md:    14px;
+  --radius-lg:    20px;
+  --radius-xl:    28px;
+}
+
+/* ═══════════════════════════════════════════
+   DARK THEME — Deep Plum / Velvet
+   ═══════════════════════════════════════════ */
+:root,
+[data-theme="dark"] {
+  --bg:             #130d11;
+  --bg-2:           #1c1219;
+  --bg-3:           #261820;
+  --surface:        rgba(255,255,255,0.05);
+  --surface-2:      rgba(255,255,255,0.09);
+  --border:         rgba(196,96,122,0.16);
+  --border-brand:   rgba(196,96,122,0.42);
+  --text-primary:   #f5edf0;
+  --text-secondary: rgba(245,237,240,0.55);
+  --text-muted:     rgba(245,237,240,0.32);
+  --card-bg:        rgba(255,255,255,0.045);
+  --card-border:    rgba(196,96,122,0.16);
+  --nav-bg:         rgba(19,13,17,0.92);
+  --input-bg:       rgba(255,255,255,0.055);
+  --scrollbar:      rgba(196,96,122,0.3);
+  --shadow:         rgba(0,0,0,0.55);
+  --invert-text:    #130d11;
+  --panel:          #1c1219;
+  --success:        #4ade80;
+  --success-soft:   rgba(34,197,94,0.14);
+  --info:           #60a5fa;
+  --info-soft:      rgba(96,165,250,0.14);
+  --warning:        #fbbf24;
+  --warning-soft:   rgba(251,191,36,0.14);
+  --danger:         #f87171;
+  --danger-soft:    rgba(248,113,113,0.14);
+  --accent:         #a78bfa;
+  --gold-text:      #e8c97a;
+  --gold-soft:      rgba(232,201,122,0.14);
+}
+
+/* ═══════════════════════════════════════════
+   LIGHT THEME — Soft cream / rose petal
+   ═══════════════════════════════════════════ */
+[data-theme="light"] {
+  --bg:             #faf6f1;
+  --bg-2:           #f3ebe3;
+  --bg-3:           #ebe1d6;
+  --surface:        #fffdfb;
+  --surface-2:      #ffffff;
+  --border:         rgba(60, 40, 48, 0.14);
+  --border-brand:   rgba(196, 96, 122, 0.45);
+  --text-primary:   #1a1216;
+  --text-secondary: rgba(26, 18, 22, 0.72);
+  --text-muted:     rgba(26, 18, 22, 0.52);
+  --card-bg:        #fffdfb;
+  --card-border:    rgba(60, 40, 48, 0.12);
+  --nav-bg:         rgba(250, 246, 241, 0.96);
+  --input-bg:       #ffffff;
+  --scrollbar:      rgba(196, 96, 122, 0.28);
+  --shadow:         rgba(60, 40, 48, 0.08);
+  --invert-text:    #ffffff;
+  --panel:          #ffffff;
+  --success:        #15803d;
+  --success-soft:   rgba(21, 128, 61, 0.12);
+  --info:           #1d4ed8;
+  --info-soft:      rgba(29, 78, 216, 0.12);
+  --warning:        #a16207;
+  --warning-soft:   rgba(161, 98, 7, 0.12);
+  --danger:         #b91c1c;
+  --danger-soft:    rgba(185, 28, 28, 0.12);
+  --accent:         #6d28d9;
+  --gold-text:      #7a5416;
+  --gold-soft:      rgba(122, 84, 22, 0.12);
+  --brand-soft:     rgba(196, 96, 122, 0.1);
+}
+
+/* Theme-aware Tailwind colours: text-fg, bg-fg/5, border-line, bg-panel … */
+@theme inline {
+  --color-fg:       var(--text-primary);
+  --color-fg-2:     var(--text-secondary);
+  --color-fg-muted: var(--text-muted);
+  --color-line:     var(--border);
+  --color-panel:    var(--panel);
+}
+
+/* ═══════════════════════════════════════════
+   BASE
+   ═══════════════════════════════════════════ */
+* {
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
+}
+
+h1, h2, h3, .font-serif {
+  font-family: 'Playfair Display', Georgia, serif;
+  letter-spacing: -0.01em;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text-primary);
+  overflow-x: hidden;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--scrollbar); border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: var(--brand); }
+
+/* ═══════════════════════════════════════════
+   TYPOGRAPHY UTILITIES
+   ═══════════════════════════════════════════ */
+.gradient-text {
+  background: linear-gradient(135deg, var(--gold-light) 0%, var(--brand-light) 40%, var(--brand) 70%, var(--brand-dark) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+[data-theme="light"] .gradient-text {
+  background: linear-gradient(135deg, var(--brand) 0%, var(--brand-dark) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ═══════════════════════════════════════════
+   GLASS / SURFACE UTILITIES
+   ═══════════════════════════════════════════ */
+.glass {
+  background: var(--surface);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid var(--border);
+  transition: background 0.3s, border-color 0.3s;
+}
+
+.glass-strong {
+  background: var(--surface-2);
+  backdrop-filter: blur(24px) saturate(200%);
+  -webkit-backdrop-filter: blur(24px) saturate(200%);
+  border: 1px solid var(--border);
+}
+
+.glass-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  transition: background 0.3s, border-color 0.3s;
+}
+[data-theme="light"] .glass-card,
+[data-theme="light"] .dashboard .glass,
+[data-theme="light"] .dashboard .stat-card {
+  box-shadow: 0 1px 3px var(--shadow);
+}
+
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-lg);
+  transition: background 0.3s, border-color 0.3s, box-shadow 0.2s, transform 0.2s;
+}
+
+.card:hover {
+  border-color: var(--border-brand);
+  box-shadow: 0 8px 32px var(--shadow);
+  transform: translateY(-2px);
+}
+
+/* ═══════════════════════════════════════════
+   LOGO IMAGE
+   The logo PNGs (612×408) have wide empty margins; this crops them to the
+   wordmark so the height you set (h-12, h-14…) is mostly lettering.
+   ═══════════════════════════════════════════ */
+.logo-img {
+  aspect-ratio: 5 / 2;
+  width: auto;
+  object-fit: cover;
+  object-position: 50% 60%;
+}
+
+/* ═══════════════════════════════════════════
+   GLOW
+   ═══════════════════════════════════════════ */
+.glow {
+  box-shadow: 0 0 60px var(--brand-glow), 0 0 120px rgba(192,73,106,0.08);
+}
+.glow-sm {
+  box-shadow: 0 0 20px var(--brand-glow);
+}
+
+/* ═══════════════════════════════════════════
+   BUTTONS
+   ═══════════════════════════════════════════ */
+.btn-primary {
+  background: linear-gradient(135deg, var(--brand-light), var(--brand), var(--brand-dark));
+  color: #fff;
+  border: none;
+  box-shadow: 0 4px 20px var(--brand-glow);
+  transition: all 0.22s ease;
+  font-weight: 600;
+}
+.btn-primary:hover {
+  box-shadow: 0 8px 32px var(--brand-glow);
+  transform: translateY(-1px);
+}
+
+.btn-ghost {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  transition: all 0.22s ease;
+}
+.btn-ghost:hover {
+  background: var(--surface-2);
+  border-color: var(--border-brand);
+}
+
+/* ═══════════════════════════════════════════
+   STAT CARDS
+   ═══════════════════════════════════════════ */
+.stat-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+@media (min-width: 640px) { .stat-card { padding: 20px; } }
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--brand), transparent);
+  opacity: 0.4;
+}
+.stat-card:hover {
+  border-color: var(--border-brand);
+  box-shadow: 0 4px 24px var(--shadow);
+}
+
+/* ═══════════════════════════════════════════
+   TABLE
+   ═══════════════════════════════════════════ */
+.data-table th {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+}
+.data-table td {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  font-size: 13.5px;
+  color: var(--text-primary);
+}
+.data-table tr:last-child td { border-bottom: none; }
+.data-table tr:hover td { background: var(--surface); }
+
+/* ═══════════════════════════════════════════
+   INPUTS
+   In the components layer so utilities like pl-10 (room for an icon)
+   can override the default padding.
+   ═══════════════════════════════════════════ */
+@layer components {
+  .input-field {
+    width: 100%;
+    appearance: none;
+    -webkit-appearance: none;
+    background-color: var(--input-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 11px 14px;
+    min-height: 44px;
+    color: var(--text-primary);
+    font-size: 14px;
+    font-weight: 450;
+    line-height: 1.4;
+    letter-spacing: 0.01em;
+    transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+    outline: none;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
+  }
+  .input-field::placeholder {
+    color: var(--text-muted);
+    font-weight: 400;
+  }
+  .input-field:hover:not(:disabled):not(:focus) {
+    border-color: var(--border-brand);
+    background-color: var(--surface);
+  }
+  .input-field:focus {
+    border-color: var(--brand);
+    background-color: var(--panel);
+    box-shadow: 0 0 0 3px var(--brand-soft), inset 0 1px 0 rgba(255,255,255,0.04);
+  }
+  [data-theme="light"] .input-field {
+    border-color: rgba(60, 40, 48, 0.18);
+    box-shadow: 0 1px 2px rgba(60, 40, 48, 0.04);
+  }
+  [data-theme="light"] .input-field::placeholder {
+    color: rgba(26, 18, 22, 0.4);
+  }
+  [data-theme="light"] .input-field:hover:not(:disabled):not(:focus) {
+    background-color: #ffffff;
+  }
+  [data-theme="light"] label .text-fg-2,
+  [data-theme="light"] label span.text-fg-2,
+  [data-theme="light"] .text-fg-2 {
+    color: rgba(26, 18, 22, 0.78);
+  }
+  [data-theme="light"] .text-fg-muted {
+    color: rgba(26, 18, 22, 0.55);
+  }
+  .input-field:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+  select.input-field {
+    padding-right: 2.5rem;
+    background-image:
+      linear-gradient(45deg, transparent 50%, var(--text-muted) 50%),
+      linear-gradient(135deg, var(--text-muted) 50%, transparent 50%);
+    background-position:
+      calc(100% - 18px) calc(50% - 2px),
+      calc(100% - 12px) calc(50% - 2px);
+    background-size: 6px 6px, 6px 6px;
+    background-repeat: no-repeat;
+    cursor: pointer;
+  }
+  select.input-field:focus {
+    background-image:
+      linear-gradient(45deg, transparent 50%, var(--brand) 50%),
+      linear-gradient(135deg, var(--brand) 50%, transparent 50%);
+  }
+  textarea.input-field {
+    min-height: 88px;
+    resize: vertical;
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+  [data-theme="light"] .input-field {
+    box-shadow: 0 1px 2px rgba(154,58,84,0.04);
+  }
+  [data-theme="light"] .input-field:hover:not(:disabled):not(:focus),
+  [data-theme="light"] .input-field:focus {
+    background-color: #fff;
+  }
+  [data-theme="light"] .input-field:focus {
+    box-shadow: 0 0 0 3px var(--brand-soft), 0 1px 2px rgba(154,58,84,0.06);
+  }
+}
+.input-error {
+  border-color: var(--danger) !important;
+  box-shadow: 0 0 0 3px var(--danger-soft) !important;
+}
+.input-error:focus {
+  border-color: var(--danger) !important;
+  box-shadow: 0 0 0 3px var(--danger-soft) !important;
+}
+
+/* ═══════════════════════════════════════════
+   BADGE
+   ═══════════════════════════════════════════ */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 99px;
+  font-size: 11.5px;
+  font-weight: 500;
+}
+
+/* ═══════════════════════════════════════════
+   SIDEBAR NAV ACTIVE
+   ═══════════════════════════════════════════ */
+.nav-active {
+  background: var(--brand-soft);
+  border: 1px solid var(--border-brand);
+  color: var(--brand);
+  box-shadow: inset 3px 0 0 var(--brand);
+}
+[data-theme="light"] .nav-active {
+  color: var(--brand-dark);
+}
+
+/* ═══════════════════════════════════════════
+   DASHBOARD — LIGHT MODE ACCENTS
+   The -300/-400 shades are tuned for dark backgrounds
+   and wash out on ivory, so use deeper shades instead.
+   ═══════════════════════════════════════════ */
+[data-theme="light"] .dashboard .text-red-400,
+[data-theme="light"] .dashboard .hover\:text-red-300:hover,
+[data-theme="light"] .dashboard .hover\:text-red-400:hover,
+[data-theme="light"] .text-red-400 { color: #dc2626; }
+[data-theme="light"] .dashboard .text-green-400,
+[data-theme="light"] .dashboard .hover\:text-green-300:hover,
+[data-theme="light"] .text-green-400 { color: #15803d; }
+[data-theme="light"] .dashboard .text-yellow-400,
+[data-theme="light"] .text-yellow-400 { color: #a16207; }
+[data-theme="light"] .dashboard .text-orange-300,
+[data-theme="light"] .dashboard .text-orange-400,
+[data-theme="light"] .text-orange-400 { color: #ea580c; }
+[data-theme="light"] .dashboard .text-blue-400,
+[data-theme="light"] .text-blue-400 { color: #2563eb; }
+[data-theme="light"] .dashboard .text-violet-300,
+[data-theme="light"] .dashboard .text-violet-400,
+[data-theme="light"] .text-violet-400 { color: #7c3aed; }
+
+[data-theme="light"] .hover\:text-red-400:hover { color: #dc2626; }
+
+/* Global form controls inherit theme tokens */
+select, textarea, input:not([type="checkbox"]):not([type="radio"]):not([type="range"]) {
+  color-scheme: dark;
+}
+[data-theme="light"] select,
+[data-theme="light"] textarea,
+[data-theme="light"] input:not([type="checkbox"]):not([type="radio"]):not([type="range"]) {
+  color-scheme: light;
+}
+
+/* Modals / overlays / menus should always use theme surfaces */
+.theme-surface {
+  background: var(--panel);
+  color: var(--text-primary);
+  border: 1px solid var(--card-border);
+}
+
+/* ═══════════════════════════════════════════
+   SECTION LABEL
+   ═══════════════════════════════════════════ */
+.section-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* ═══════════════════════════════════════════
+   ANIMATIONS
+   ═══════════════════════════════════════════ */
+@keyframes borderGlow {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+.border-glow-animate { animation: borderGlow 3s ease-in-out infinite; }
+
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.page-enter { animation: fadeSlideUp 0.35s ease forwards; }
+
+/* ═══════════════════════════════════════════
+   THEME TOGGLE BUTTON
+   ═══════════════════════════════════════════ */
+.theme-toggle {
+  width: 38px; height: 38px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-primary);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, transform 0.2s;
+  flex-shrink: 0;
+}
+.theme-toggle:hover {
+  background: var(--surface-2);
+  border-color: var(--border-brand);
+  transform: rotate(15deg);
+}
+
+/* Close / dismiss icon button — high contrast so the X stays visible */
+.btn-icon-close {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--text-primary);
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+.btn-icon-close:hover {
+  background: var(--surface-2);
+  border-color: var(--border-brand);
+  color: var(--text-primary);
+}
+[data-theme="light"] .btn-icon-close {
+  background: #ffffff;
+  border-color: rgba(26, 18, 22, 0.28);
+  color: #1a1216;
+  box-shadow: 0 1px 2px rgba(26, 18, 22, 0.08);
+}
+[data-theme="light"] .btn-icon-close svg {
+  stroke: #1a1216;
+}
+@media (min-width: 1024px) {
+  .sidebar-mobile-only {
+    display: none !important;
+  }
+}
